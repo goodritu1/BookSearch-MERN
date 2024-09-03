@@ -45,7 +45,7 @@ const SavedBooks = () => {
   };
  
   // use this to determine if `useEffect()` hook needs to run again
-  const userDataLength = Object.keys(userData).length;
+  // const userDataLength = Object.keys(userData).length;
 
  
   // if data isn't here yet, say so
