@@ -35,22 +35,26 @@ const resolvers = {
             const token = signToken(user);
             return { token, user };
         },
-        saveBook: async (_parent, { book }, context) => {
+
+        saveBook: async (_parent, { bookToSave }, context) => {
             if (context.user) {
-                return User.findOneAndUpdate(
+                return await User.findOneAndUpdate(
                     { _id: context.user._id },
-                    { $addToSet: { savedBooks: book } },
+                    { $addToSet: { savedBooks: bookToSave } },
                     { new: true, runValidators: true });
             }
             throw AuthenticationError;
         },
         deleteBook: async (_parent, { bookId }, context) => {
             if (context.user) {
-                return User.findOneAndUpdate(
+                const newUser= await User.findOneAndUpdate(
                     { _id: context.user._id },
-                    { $pull: { saveBooks: { bookId: bookId } } },
+                    { $pull: { savedBooks: {bookId } } },
                     { new: true }
                 )
+                console.log(newUser);
+                return newUser;
+                
             }
             throw AuthenticationError;
         }
